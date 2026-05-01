@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arreglos de Edades</title>
+    <link rel="stylesheet" href="arreglos.css">
+    <script src="arreglos.js"></script>
+</head>
+
+<body>
+
+    <main class="contenedor">
+        <h1>Gestión de Arreglos de Edades</h1>
+
+        <section class="formulario">
+            <input type="number" id="edad" placeholder="Ingrese una edad">
+            <button onclick="agregarEdad()">Agregar</button>
+        </section>
+
+        <section class="tablas">
+            <div class="tabla-contenedor">
+                <h2>Arreglo Izquierdo</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Valor</th>
+                            <th>Eliminar</th>
+                            <th>Mover</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaIzquierda">
+                        <tr>
+                            <td>12</td>
+                            <td>
+                                <button class="btn-eliminar">Eliminar</button>
+                            </td>
+                            <td>
+                                <button class="btn-mover">➜</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>
+                                <button class="btn-eliminar">Eliminar</button>
+                            </td>
+                            <td>
+                                <button class="btn-mover">➜</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tabla-contenedor">
+                <h2>Arreglo Derecho</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mover</th>
+                            <th>Valor</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaDerecha">
+                        <tr>
+                            <td>
+                                <button class="btn-mover">⬅</button>
+                            </td>
+                            <td>20</td>
+                            <td>
+                                <button class="btn-eliminar">Eliminar</button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <button class="btn-mover">⬅</button>
+                            </td>
+                            <td>25</td>
+                            <td>
+                                <button class="btn-eliminar">Eliminar</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    
+</body>
+
+</html>
