@@ -121,14 +121,26 @@ function eliminarDerecho(indice) {
 
 function moverHaciaDerecha(indice) {
 
-  if (indice >= 0 && indice < edadesIzquierdo.length) {
-    const valor = edadesIzquierdo[indice];
-    edadesDerecho.push(valor);
-    edadesIzquierdo.splice(indice, 1);
+    if (indice >= 0 && indice < edadesIzquierdo.length) {
+        const valor = edadesIzquierdo[indice];
+        edadesDerecho.push(valor);
+        edadesIzquierdo.splice(indice, 1);
+
+        pintarArregloIzquierdo();
+        pintarArregloDerecha();
+    }
+}
+
+function moverHaciaIzquierda(indice) {
+
+  if (indice >= 0 && indice < edadesDerecho.length) {
+    const valor = edadesDerecho[indice];
+    edadesIzquierdo.push(valor);
+    edadesDerecho.splice(indice, 1);
 
     pintarArregloIzquierdo();
     pintarArregloDerecha();
-  }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
