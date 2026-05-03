@@ -19,12 +19,12 @@ function pintarArregloIzquierdo(){
     const tbody = document.getElementById("tablaIzquierda");
     tbody.innerHTML="";
 
-    if(edadesIzquierdo===0){
+    if(edadesIzquierdo.length===0){
         const tr = document.createElement("tr");
         const td = document.createElement("td");
         td.colSpan=3;
         td.className="empty";
-        td.textContent="arrgelo izquierdo vacio";
+        td.textContent="arreglo izquierdo vacio";
         tr.appendChild(td);
         tbody.appendChild(tr);
         return;
@@ -67,4 +67,59 @@ function eliminarIzquierdo(indice) {
     } 
 }
 
-document.addEventListener("DOMContentLoaded", pintarArregloIzquierdo);
+function pintarArregloDerecha() {
+    const tbody = document.getElementById("tablaDerecha");
+    tbody.innerHTML = "";
+
+    if (edadesDerecho.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 3;
+        td.className = "empty";
+        td.textContent = "arreglo derecho vacio";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+    }
+
+    for (let i = 0; i < edadesDerecho.length; i++) {
+        const edad = edadesDerecho[i];
+
+        const tr = document.createElement("tr");
+
+        const tdMover = document.createElement("td");
+        const btnMover = document.createElement("button");
+        btnMover.className = "btn-mover";
+
+        btnMover.setAttribute("onclick", `moverHaciaIzquierda(${i})`);
+        btnMover.textContent = "⬅";
+        tdMover.appendChild(btnMover);
+        tr.appendChild(tdMover);
+
+        const tdValor = document.createElement("td");
+        tdValor.textContent = edad;
+        tr.appendChild(tdValor);
+
+        const tdEliminar = document.createElement("td");
+        const btnEliminar = document.createElement("button");
+        btnEliminar.className = "btn-eliminar";
+        btnEliminar.setAttribute("onclick", `eliminarDerecho(${i})`);
+        btnEliminar.textContent = "Eliminar";
+        tdEliminar.appendChild(btnEliminar);
+        tr.appendChild(tdEliminar);
+
+        tbody.appendChild(tr);
+    }
+}
+
+    function eliminarDerecho(indice) {
+        if (indice >= 0 && indice < edadesDerecho.length) {
+        edadesDerecho.splice(indice, 1);
+        pintarArregloDerecha();
+        } 
+    }
+
+document.addEventListener("DOMContentLoaded", function () {
+    pintarArregloIzquierdo();
+    pintarArregloDerecha();
+});
