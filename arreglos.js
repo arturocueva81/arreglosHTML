@@ -184,12 +184,14 @@ function applyStoredOrSystemTheme() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  // ya tenías estas llamadas:
-  pintarArregloIzquierdo();
-  pintarArregloDerecha();
+
 
   // aplicar tema inicial
   applyStoredOrSystemTheme();
+
+    // ya tenías estas llamadas:
+  pintarArregloIzquierdo();
+  pintarArregloDerecha();
 
   // inicializar switch
   const themeSwitch = document.getElementById('themeSwitch');
