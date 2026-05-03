@@ -1,107 +1,86 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arreglos de Edades</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="arreglos.css?v=1.1">
-    <script src="arreglos.js?v=1.1"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arreglos de Edades</title>
+
+  <!-- CSS: con query param para forzar actualización en producción -->
+  <link rel="stylesheet" href="arreglos.css?v=1.2">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    
+  <main class="contenedor">
+    <h1>Gestión de Arreglos de Edades</h1>
 
-    <main class="contenedor">
-        <h1>Gestión de Arreglos de Edades</h1>
-        <!-- Switch de tema (reemplaza al botón #themeToggle) -->
-        <div class="theme-switch-wrapper" title="Cambiar tema">
-        <input id="themeSwitch" class="theme-switch" type="checkbox" role="switch" aria-checked="false" />
-        <label for="themeSwitch" class="theme-switch-label">
-            <span class="icon-sun" aria-hidden="true">☀️</span>
-            <span class="icon-moon" aria-hidden="true">🌙</span>
-        </label>
-        </div>
-        
-        <section class="formulario">
-            <input type="number" id="edad" placeholder="Ingrese una edad">
-            <button onclick="agregarEdad()">Agregar</button>
-        </section>
+    <!-- Switch de tema -->
+    <div class="theme-switch-wrapper" title="Cambiar tema">
+      <input id="themeSwitch" class="theme-switch" type="checkbox" role="switch" aria-checked="false" />
+      <label for="themeSwitch" class="theme-switch-label">
+        <span class="icon-sun" aria-hidden="true">☀️</span>
+        <span class="icon-moon" aria-hidden="true">🌙</span>
+      </label>
+    </div>
 
-        <section class="tablas">
-            <div class="tabla-contenedor">
-                <h2>Arreglo Izquierdo</h2>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Valor</th>
-                            <th>Eliminar</th>
-                            <th>Mover</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaIzquierda">
-                        <tr>
-                            <td>12</td>
-                            <td>
-                                <button class="btn-eliminar">Eliminar</button>
-                            </td>
-                            <td>
-                                <button class="btn-mover">➜</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>
-                                <button class="btn-eliminar">Eliminar</button>
-                            </td>
-                            <td>
-                                <button class="btn-mover">➜</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <section class="formulario">
+      <input type="number" id="edad" placeholder="Ingrese una edad" />
+      <button onclick="agregarEdad()">Agregar</button>
+    </section>
 
-            <div class="tabla-contenedor">
-                <h2>Arreglo Derecho</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Mover</th>
-                            <th>Valor</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaDerecha">
-                        <tr>
-                            <td>
-                                <button class="btn-mover">⬅</button>
-                            </td>
-                            <td>20</td>
-                            <td>
-                                <button class="btn-eliminar">Eliminar</button>
-                            </td>
-                        </tr>
+    <section class="tablas">
+      <div class="tabla-contenedor">
+        <h2>Arreglo Izquierdo</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Valor</th>
+              <th>Eliminar</th>
+              <th>Mover</th>
+            </tr>
+          </thead>
+          <tbody id="tablaIzquierda">
+            <tr>
+              <td>12</td>
+              <td><button class="btn-eliminar">Eliminar</button></td>
+              <td><button class="btn-mover">➜</button></td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td><button class="btn-eliminar">Eliminar</button></td>
+              <td><button class="btn-mover">➜</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-                        <tr>
-                            <td>
-                                <button class="btn-mover">⬅</button>
-                            </td>
-                            <td>25</td>
-                            <td>
-                                <button class="btn-eliminar">Eliminar</button>
-                            </td>
-                        </tr>
+      <div class="tabla-contenedor">
+        <h2>Arreglo Derecho</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Mover</th>
+              <th>Valor</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody id="tablaDerecha">
+            <tr>
+              <td><button class="btn-mover">⬅</button></td>
+              <td>20</td>
+              <td><button class="btn-eliminar">Eliminar</button></td>
+            </tr>
+            <tr>
+              <td><button class="btn-mover">⬅</button></td>
+              <td>25</td>
+              <td><button class="btn-eliminar">Eliminar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
-
-    
+  <!-- JS al final del body para asegurar DOM disponible; con version param para cache-busting -->
+  <script src="arreglos.js?v=1.2"></script>
 </body>
-
 </html>

@@ -1,8 +1,5 @@
 /* arreglos.css
-   Estilo corporativo claro/oscuro, responsive y animaciones para filas.
-   - Usa variables CSS para fácil personalización.
-   - Clases de animación: .row-enter, .row-move, .row-exit
-   - Soporta toggle por .dark en <body> o por prefers-color-scheme.
+   Tema claro/oscuro responsivo, con variables theme-aware y animaciones.
 */
 
 /* -------------------------
@@ -19,6 +16,7 @@
   --danger: #dc2626;
   --surface-shadow: 0 8px 20px rgba(2,6,23,0.08);
   --glass: rgba(255,255,255,0.6);
+  --overlay: rgba(15,23,36,0.04);
   --mono: ui-monospace, "Roboto Mono", "Courier New", monospace;
   --transition-fast: 180ms cubic-bezier(.2,.8,.2,1);
   --radius: 12px;
@@ -26,7 +24,7 @@
 }
 
 /* -------------------------
-   Dark theme overrides
+   Dark theme overrides (prefers)
    ------------------------- */
 @media (prefers-color-scheme: dark){
   :root{
@@ -40,9 +38,13 @@
     --danger: #f87171;
     --surface-shadow: 0 10px 30px rgba(2,6,12,0.6);
     --glass: rgba(255,255,255,0.03);
+    --overlay: rgba(255,255,255,0.03);
   }
 }
-/* Manual dark toggle by adding .dark to body */
+
+/* Manual dark toggle by adding .dark to body
+   (body.dark should come AFTER the @media block if you edit the file)
+*/
 body.dark {
   --bg: #0b1220;
   --card: #081223;
@@ -54,6 +56,7 @@ body.dark {
   --danger: #f87171;
   --surface-shadow: 0 10px 30px rgba(2,6,12,0.6);
   --glass: rgba(255,255,255,0.03);
+  --overlay: rgba(255,255,255,0.03);
 }
 
 /* -------------------------
@@ -79,12 +82,13 @@ body{
   width:90%;
   max-width:var(--max-width);
   margin: 20px auto;
-  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
   background-color: var(--card);
+  /* ligera capa 'glass' que respeta el tema */
+  background-image: linear-gradient(180deg, var(--glass), rgba(0,0,0,0));
   padding:28px;
   border-radius:var(--radius);
   box-shadow:var(--surface-shadow);
-  border: 1px solid rgba(15,23,36,0.04);
+  border: 1px solid color-mix(in srgb, var(--text) 4%, transparent);
   transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
@@ -111,8 +115,8 @@ input[type="number"]{
   padding:12px 14px;
   width:240px;
   border-radius:10px;
-  border:1px solid rgba(15,23,36,0.06);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.01));
+  border:1px solid color-mix(in srgb, var(--text) 6%, transparent);
+  background-color: color-mix(in srgb, var(--card) 92%, white 8%);
   font-size:15px;
   color:var(--text);
   outline:none;
@@ -163,10 +167,10 @@ button:focus{ outline:2px solid color-mix(in srgb, var(--primary) 40%, transpare
 .tabla-contenedor{
   width:48%;
   min-width:260px;
-  background: linear-gradient(180deg, var(--glass), rgba(0,0,0,0));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--glass) 80%, var(--card) 20%), rgba(0,0,0,0));
   padding:16px;
   border-radius:12px;
-  border:1px solid rgba(15,23,36,0.035);
+  border:1px solid color-mix(in srgb, var(--text) 4%, transparent);
 }
 .tabla-contenedor h2{
   text-align:center;
@@ -177,8 +181,8 @@ button:focus{ outline:2px solid color-mix(in srgb, var(--primary) 40%, transpare
 
 /* visual del arreglo */
 .visual-array{
-  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(0,0,0,0.02));
-  border:1px solid rgba(15,23,36,0.04);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, white 4%), rgba(0,0,0,0));
+  border:1px solid color-mix(in srgb, var(--text) 6%, transparent);
   padding:10px;
   border-radius:10px;
   margin-bottom:12px;
@@ -200,7 +204,7 @@ table{
   background:transparent;
 }
 thead th{
-  background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.02));
+  background: linear-gradient(180deg, var(--overlay), color-mix(in srgb, var(--overlay) 60%, transparent));
   color:var(--text);
   padding:10px 12px;
   font-weight:700;
@@ -210,12 +214,12 @@ thead th{
 td{
   padding:10px 12px;
   text-align:center;
-  border-bottom:1px dashed rgba(15,23,36,0.04);
+  border-bottom:1px dashed color-mix(in srgb, var(--text) 8%, transparent);
   font-size:14px;
   color:var(--text);
 }
 tr:nth-child(even) td{
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--card) 98%, transparent), transparent);
 }
 
 /* estado empty */
@@ -241,8 +245,8 @@ tr:nth-child(even) td{
 
 /* Movimiento / highlight breve (por ejemplo, al mover de un panel a otro) */
 @keyframes rowMove {
-  0% { transform: translateX(0) scale(1); background: rgba(37,99,235,0.02); }
-  30% { transform: translateX(6px) scale(1.02); background: rgba(16,185,129,0.06); }
+  0% { transform: translateX(0) scale(1); background: color-mix(in srgb, var(--overlay) 16%, transparent); }
+  30% { transform: translateX(6px) scale(1.02); background: color-mix(in srgb, var(--success) 8%, transparent); }
   100% { transform: translateX(0) scale(1); background: transparent; }
 }
 .row-move {
@@ -293,34 +297,16 @@ td > button{
 }
 
 /* -------------------------
-   Utility: foco accesible para filas/elementos
+   Theme switch (estilos)
    ------------------------- */
-.tr-focus:focus-within{
-  outline: 3px solid color-mix(in srgb, var(--primary) 20%, transparent);
-  border-radius: 8px;
-}
-
-#themeToggle {
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(15,23,36,0.06);
-  background: transparent;
-  color: var(--text);
-  font-weight: 700;
-  cursor: pointer;
-  margin-left: 6px;
-}
-#themeToggle:hover { transform: translateY(-1px); filter: brightness(1.02); }
-
-/* Wrapper */
 .theme-switch-wrapper {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-left: 6px;
+  position: relative;
 }
 
-/* Input oculto (pero accesible) */
 .theme-switch {
   position: absolute;
   opacity: 0;
@@ -328,22 +314,20 @@ td > button{
   height: 0;
 }
 
-/* Label como slider */
 .theme-switch-label {
   display: inline-block;
   width: 56px;
   height: 32px;
-  background: linear-gradient(180deg, rgba(15,23,36,0.06), rgba(0,0,0,0.02));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--overlay) 60%, transparent), rgba(0,0,0,0));
   border-radius: 999px;
   position: relative;
   cursor: pointer;
-  border: 1px solid rgba(15,23,36,0.04);
+  border: 1px solid color-mix(in srgb, var(--text) 6%, transparent);
   transition: background 180ms ease, box-shadow 180ms ease, transform 120ms ease;
   padding: 4px;
   box-sizing: border-box;
 }
 
-/* Knob */
 .theme-switch-label::after {
   content: "";
   position: absolute;
@@ -352,12 +336,11 @@ td > button{
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: white;
+  background: var(--card);
   box-shadow: 0 6px 14px rgba(2,6,23,0.08);
   transition: transform 220ms cubic-bezier(.2,.8,.2,1);
 }
 
-/* Icons inside the label */
 .theme-switch-label .icon-sun,
 .theme-switch-label .icon-moon {
   position: absolute;
@@ -367,12 +350,9 @@ td > button{
   pointer-events: none;
   opacity: 0.9;
 }
-
-/* Sun on left, moon on right */
 .theme-switch-label .icon-sun { left: 8px; }
 .theme-switch-label .icon-moon { right: 8px; }
 
-/* Estado checked: mover knob a la derecha y cambiar fondo */
 .theme-switch:checked + .theme-switch-label {
   background: linear-gradient(180deg, var(--primary), var(--primary-600));
   box-shadow: 0 8px 22px rgba(37,99,235,0.10);
@@ -380,9 +360,15 @@ td > button{
 .theme-switch:checked + .theme-switch-label::after {
   transform: translateX(24px);
 }
-
-/* Ajustes para modo oscuro visual (opcional) */
 body.dark .theme-switch-label {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  border-color: rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--overlay) 60%, transparent), rgba(0,0,0,0));
+  border-color: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+/* -------------------------
+   Utility: foco accesible para filas/elementos
+   ------------------------- */
+.tr-focus:focus-within{
+  outline: 3px solid color-mix(in srgb, var(--primary) 20%, transparent);
+  border-radius: 8px;
 }
