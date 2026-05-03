@@ -60,4 +60,11 @@ function pintarArregloIzquierdo(){
     }
 }
 
+function eliminarIzquierdo(indice) {
+    if (indice >= 0 && indice < edadesIzquierdo.length) {
+        edadesIzquierdo.splice(indice, 1);
+        pintarArregloIzquierdo();
+    } 
+}
+
 document.addEventListener("DOMContentLoaded", pintarArregloIzquierdo);
