@@ -112,12 +112,24 @@ function pintarArregloDerecha() {
     }
 }
 
-    function eliminarDerecho(indice) {
-        if (indice >= 0 && indice < edadesDerecho.length) {
-        edadesDerecho.splice(indice, 1);
-        pintarArregloDerecha();
-        } 
-    }
+function eliminarDerecho(indice) {
+    if (indice >= 0 && indice < edadesDerecho.length) {
+    edadesDerecho.splice(indice, 1);
+    pintarArregloDerecha();
+    } 
+}
+
+function moverHaciaDerecha(indice) {
+
+  if (indice >= 0 && indice < edadesIzquierdo.length) {
+    const valor = edadesIzquierdo[indice];
+    edadesDerecho.push(valor);
+    edadesIzquierdo.splice(indice, 1);
+
+    pintarArregloIzquierdo();
+    pintarArregloDerecha();
+  }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     pintarArregloIzquierdo();
