@@ -5,13 +5,15 @@ function agregarEdad() {
     const input = document.getElementById("edad");
     const valor = parseInt(input.value, 10);
 
-    if (!isNaN(valor)) {
+    if (!isNaN(valor) && valor>=1 && valor <=100) {
         edadesIzquierdo.push(valor);
         input.value = "";
         input.focus();
         pintarArregloIzquierdo();
     } else {
-        alert("Ingrese un número válido");
+        alert("ingrese una edad válida entre 1 y 100 años");
+        input.value="";
+        input.focus();
     }
 }
 
@@ -56,7 +58,8 @@ function pintarArregloIzquierdo(){
         tr.appendChild(tdMover);
 
         tbody.appendChild(tr);
-
+        tr.classList.add('row-enter');
+        setTimeout(() => tr.classList.remove('row-enter'), 450);
     }
 }
 
@@ -128,22 +131,85 @@ function moverHaciaDerecha(indice) {
 
         pintarArregloIzquierdo();
         pintarArregloDerecha();
+
+        requestAnimationFrame(() => {
+        const filas = document.querySelectorAll('#tablaDerecha tr');
+        const ultima = filas[filas.length - 1];
+        if (ultima) {
+            ultima.classList.add('row-move');
+            setTimeout(() => ultima.classList.remove('row-move'), 600);
+            }
+        });
     }
 }
 
 function moverHaciaIzquierda(indice) {
+    if (indice >= 0 && indice < edadesDerecho.length) {
+        const valor = edadesDerecho[indice];
+        edadesIzquierdo.push(valor);
+        edadesDerecho.splice(indice, 1);
 
-  if (indice >= 0 && indice < edadesDerecho.length) {
-    const valor = edadesDerecho[indice];
-    edadesIzquierdo.push(valor);
-    edadesDerecho.splice(indice, 1);
+        pintarArregloIzquierdo();
+        pintarArregloDerecha();
+        
+        requestAnimationFrame(() => {
+        const filas = document.querySelectorAll('#tablaIzquierda tr');
+        const ultima = filas[filas.length - 1];
+        if (ultima) {
+            ultima.classList.add('row-move');
+            setTimeout(() => ultima.classList.remove('row-move'), 600);
+            }
+        });
 
-    pintarArregloIzquierdo();
-    pintarArregloDerecha();
     }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     pintarArregloIzquierdo();
     pintarArregloDerecha();
+});
+
+// Reemplaza la parte que manejaba #themeToggle con este código para #themeSwitch
+function applyStoredOrSystemTheme() {
+  const stored = localStorage.getItem('theme'); // 'dark' | 'light' | null
+  if (stored === 'dark') {
+    document.body.classList.add('dark');
+  } else if (stored === 'light') {
+    document.body.classList.remove('dark');
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark');
+  } else {
+    document.body.classList.remove('dark');
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // ya tenías estas llamadas:
+  pintarArregloIzquierdo();
+  pintarArregloDerecha();
+
+  // aplicar tema inicial
+  applyStoredOrSystemTheme();
+
+  // inicializar switch
+  const themeSwitch = document.getElementById('themeSwitch');
+  if (themeSwitch) {
+    // reflejar estado actual en el switch
+    const isDark = document.body.classList.contains('dark');
+    themeSwitch.checked = isDark;
+    themeSwitch.setAttribute('aria-checked', isDark ? 'true' : 'false');
+
+    // listener: al cambiar, alternar clase, guardar y actualizar aria
+    themeSwitch.addEventListener('change', () => {
+      const nowDark = themeSwitch.checked;
+      if (nowDark) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+      themeSwitch.setAttribute('aria-checked', nowDark ? 'true' : 'false');
+    });
+  }
 });

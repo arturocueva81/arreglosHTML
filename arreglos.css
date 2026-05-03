@@ -1,129 +1,388 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+/* arreglos.css
+   Estilo corporativo claro/oscuro, responsive y animaciones para filas.
+   - Usa variables CSS para fácil personalización.
+   - Clases de animación: .row-enter, .row-move, .row-exit
+   - Soporta toggle por .dark en <body> o por prefers-color-scheme.
+*/
+
+/* -------------------------
+   Variables (tema claro)
+   ------------------------- */
+:root{
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --text: #0f1724;
+  --muted: #64748b;
+  --primary: #2563eb;
+  --primary-600: #1e40af;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --surface-shadow: 0 8px 20px rgba(2,6,23,0.08);
+  --glass: rgba(255,255,255,0.6);
+  --mono: ui-monospace, "Roboto Mono", "Courier New", monospace;
+  --transition-fast: 180ms cubic-bezier(.2,.8,.2,1);
+  --radius: 12px;
+  --max-width: 1100px;
 }
 
-body {
-    background: #f4f7fb;
-    color: #222;
+/* -------------------------
+   Dark theme overrides
+   ------------------------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b1220;
+    --card: #081223;
+    --text: #e6eef8;
+    --muted: #9aa9bf;
+    --primary: #3b82f6;
+    --primary-600: #2563eb;
+    --success: #34d399;
+    --danger: #f87171;
+    --surface-shadow: 0 10px 30px rgba(2,6,12,0.6);
+    --glass: rgba(255,255,255,0.03);
+  }
+}
+/* Manual dark toggle by adding .dark to body */
+body.dark {
+  --bg: #0b1220;
+  --card: #081223;
+  --text: #e6eef8;
+  --muted: #9aa9bf;
+  --primary: #3b82f6;
+  --primary-600: #2563eb;
+  --success: #34d399;
+  --danger: #f87171;
+  --surface-shadow: 0 10px 30px rgba(2,6,12,0.6);
+  --glass: rgba(255,255,255,0.03);
 }
 
-.contenedor {
-    width: 90%;
-    max-width: 1100px;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+/* -------------------------
+   Base
+   ------------------------- */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg) 95%, black 2%));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.4;
+  padding:28px 14px;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 25px;
+/* -------------------------
+   Contenedor principal
+   ------------------------- */
+.contenedor{
+  width:90%;
+  max-width:var(--max-width);
+  margin: 20px auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+  background-color: var(--card);
+  padding:28px;
+  border-radius:var(--radius);
+  box-shadow:var(--surface-shadow);
+  border: 1px solid rgba(15,23,36,0.04);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
-.formulario {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
+/* header */
+h1{
+  text-align:center;
+  margin:0 0 18px 0;
+  font-weight:700;
+  letter-spacing:-0.4px;
+  font-size:1.4rem;
+  color:var(--text);
 }
 
-input {
-    padding: 12px;
-    width: 220px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
+/* formulario */
+.formulario{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+input[type="number"]{
+  padding:12px 14px;
+  width:240px;
+  border-radius:10px;
+  border:1px solid rgba(15,23,36,0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.01));
+  font-size:15px;
+  color:var(--text);
+  outline:none;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+input[type="number"]:focus{
+  box-shadow: 0 6px 18px rgba(37,99,235,0.12);
+  transform: translateY(-1px);
+  border-color: var(--primary);
 }
 
-button {
-    padding: 10px 14px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
+button{
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(180deg,var(--primary),var(--primary-600));
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow: 0 6px 16px rgba(37,99,235,0.12);
+  transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms;
+}
+button:hover{ transform: translateY(-2px); filter:brightness(1.03); }
+button:active{ transform: translateY(0); }
+button:focus{ outline:2px solid color-mix(in srgb, var(--primary) 40%, transparent); }
+
+/* botones tipo */
+.btn-eliminar{
+  background: linear-gradient(180deg,var(--danger), #b91c1c);
+  box-shadow:none;
+}
+.btn-eliminar:hover{ filter:brightness(0.95); }
+.btn-mover{
+  background: linear-gradient(180deg,var(--success), #059669);
+  box-shadow:none;
+}
+.btn-mover:hover{ filter:brightness(0.97); }
+
+/* -------------------------
+   Tablas y paneles
+   ------------------------- */
+.tablas{
+  display:flex;
+  gap:22px;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.tabla-contenedor{
+  width:48%;
+  min-width:260px;
+  background: linear-gradient(180deg, var(--glass), rgba(0,0,0,0));
+  padding:16px;
+  border-radius:12px;
+  border:1px solid rgba(15,23,36,0.035);
+}
+.tabla-contenedor h2{
+  text-align:center;
+  font-size:1.05rem;
+  margin:0 0 10px 0;
+  color:var(--text);
 }
 
-button:hover {
-    background: #1e40af;
+/* visual del arreglo */
+.visual-array{
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(0,0,0,0.02));
+  border:1px solid rgba(15,23,36,0.04);
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:12px;
+  font-family: var(--mono);
+  color:var(--primary-600);
+  font-weight:700;
+  text-align:center;
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.03) inset;
 }
 
-.btn-eliminar {
-    background: #dc2626;
+/* tabla básica */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:transparent;
+}
+thead th{
+  background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.02));
+  color:var(--text);
+  padding:10px 12px;
+  font-weight:700;
+  border-radius:6px;
+  text-align:center;
+}
+td{
+  padding:10px 12px;
+  text-align:center;
+  border-bottom:1px dashed rgba(15,23,36,0.04);
+  font-size:14px;
+  color:var(--text);
+}
+tr:nth-child(even) td{
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
 }
 
-.btn-eliminar:hover {
-    background: #991b1b;
+/* estado empty */
+.empty{
+  color:var(--muted);
+  font-style:italic;
+  font-weight:600;
 }
 
-.btn-mover {
-    background: #16a34a;
+/* -------------------------
+   Animaciones para filas
+   ------------------------- */
+
+/* Entrada suave desde abajo + opacidad */
+@keyframes rowEntry {
+  0% { transform: translateY(10px) scale(0.995); opacity: 0; filter: blur(2px); }
+  60% { transform: translateY(-4px) scale(1.01); opacity: 1; filter: blur(0); }
+  100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+}
+.row-enter {
+  animation: rowEntry 360ms var(--transition-fast) both;
 }
 
-.btn-mover:hover {
-    background: #166534;
+/* Movimiento / highlight breve (por ejemplo, al mover de un panel a otro) */
+@keyframes rowMove {
+  0% { transform: translateX(0) scale(1); background: rgba(37,99,235,0.02); }
+  30% { transform: translateX(6px) scale(1.02); background: rgba(16,185,129,0.06); }
+  100% { transform: translateX(0) scale(1); background: transparent; }
+}
+.row-move {
+  animation: rowMove 520ms cubic-bezier(.2,.8,.2,1) both;
+  box-shadow: 0 8px 20px rgba(37,99,235,0.06);
+  border-radius:8px;
 }
 
-.tablas {
-    display: flex;
-    gap: 25px;
-    justify-content: space-between;
+/* Salida suave hacia la derecha con desvanecimiento */
+@keyframes rowExit {
+  0% { transform: translateX(0) scale(1); opacity:1; }
+  50% { transform: translateX(12px) scale(0.98); opacity:0.6; }
+  100% { transform: translateX(30px) scale(0.95); opacity:0; height:0; margin:0; padding:0; }
+}
+.row-exit {
+  animation: rowExit 320ms ease forwards;
 }
 
-.tabla-contenedor {
-    width: 50%;
-    overflow-x: auto;
+/* Transiciones generales para botones/td */
+td > button{
+  min-width:84px;
+  padding:8px 10px;
+  font-size:13px;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 12px;
+/* -------------------------
+   Micro-interacciones
+   ------------------------- */
+.table-row-highlight:hover td{
+  transform: translateY(-2px);
+  transition: transform 220ms ease;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #ffffff;
+/* -------------------------
+   Responsive
+   ------------------------- */
+@media (max-width: 900px){
+  .tablas{ gap:12px }
+  .tabla-contenedor{ width:100% }
+  .contenedor{ padding:18px }
+  input[type="number"]{ width:100%; max-width:420px; }
 }
 
-th {
-    background: #111827;
-    color: white;
-    padding: 12px;
+@media (max-width: 480px){
+  h1{ font-size:1.1rem; }
+  td{ padding:8px 10px; font-size:13px; }
+  button{ padding:9px 12px; font-size:13px; }
 }
 
-td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
+/* -------------------------
+   Utility: foco accesible para filas/elementos
+   ------------------------- */
+.tr-focus:focus-within{
+  outline: 3px solid color-mix(in srgb, var(--primary) 20%, transparent);
+  border-radius: 8px;
 }
 
-tr:nth-child(even) {
-    background: #f9fafb;
+#themeToggle {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(15,23,36,0.06);
+  background: transparent;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 6px;
+}
+#themeToggle:hover { transform: translateY(-1px); filter: brightness(1.02); }
+
+/* Wrapper */
+.theme-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 6px;
 }
 
-@media (max-width: 768px) {
-    .tablas {
-        flex-direction: column;
-    }
+/* Input oculto (pero accesible) */
+.theme-switch {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-    .tabla-contenedor {
-        width: 100%;
-    }
+/* Label como slider */
+.theme-switch-label {
+  display: inline-block;
+  width: 56px;
+  height: 32px;
+  background: linear-gradient(180deg, rgba(15,23,36,0.06), rgba(0,0,0,0.02));
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid rgba(15,23,36,0.04);
+  transition: background 180ms ease, box-shadow 180ms ease, transform 120ms ease;
+  padding: 4px;
+  box-sizing: border-box;
+}
 
-    .formulario {
-        flex-direction: column;
-    }
+/* Knob */
+.theme-switch-label::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 6px 14px rgba(2,6,23,0.08);
+  transition: transform 220ms cubic-bezier(.2,.8,.2,1);
+}
 
-    input,
-    button {
-        width: 100%;
-    }
+/* Icons inside the label */
+.theme-switch-label .icon-sun,
+.theme-switch-label .icon-moon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* Sun on left, moon on right */
+.theme-switch-label .icon-sun { left: 8px; }
+.theme-switch-label .icon-moon { right: 8px; }
+
+/* Estado checked: mover knob a la derecha y cambiar fondo */
+.theme-switch:checked + .theme-switch-label {
+  background: linear-gradient(180deg, var(--primary), var(--primary-600));
+  box-shadow: 0 8px 22px rgba(37,99,235,0.10);
+}
+.theme-switch:checked + .theme-switch-label::after {
+  transform: translateX(24px);
+}
+
+/* Ajustes para modo oscuro visual (opcional) */
+body.dark .theme-switch-label {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-color: rgba(255,255,255,0.03);
 }

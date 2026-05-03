@@ -6,14 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arreglos de Edades</title>
     <link rel="stylesheet" href="arreglos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="arreglos.js"></script>
 </head>
 
 <body>
+    
 
     <main class="contenedor">
         <h1>Gestión de Arreglos de Edades</h1>
-
+        <!-- Switch de tema (reemplaza al botón #themeToggle) -->
+        <div class="theme-switch-wrapper" title="Cambiar tema">
+        <input id="themeSwitch" class="theme-switch" type="checkbox" role="switch" aria-checked="false" />
+        <label for="themeSwitch" class="theme-switch-label">
+            <span class="icon-sun" aria-hidden="true">☀️</span>
+            <span class="icon-moon" aria-hidden="true">🌙</span>
+        </label>
+        </div>
+        
         <section class="formulario">
             <input type="number" id="edad" placeholder="Ingrese una edad">
             <button onclick="agregarEdad()">Agregar</button>
